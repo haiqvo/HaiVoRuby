@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bouncing Ball</title>
+    <style>
+        form{
+            width:330px;
+            margin:20px;
+            background-color: #ff0000;
+            padding: 20px;
+        }
+    </style>
+    <script type="text/javascript" src="Balls.js"></script>
+    <script type="text/javascript" src="Colliding.js"></script>
+
+</head>
+
+<body onLoad="init();">
+
+<canvas id="my_canvas" width = "700" height ="500">
+    Your canvas doesn't support HTML5
+</canvas>
+
+<br/>
+<br/>
+
+<form name="f" id="f" onSubmit="return change();">
+
+    <!--Form validation done by setting input type as number and using min and max to set a range of values-->
+
+    Velocity <input name ="hv" id = "hv" value ="5" type ="number" min = "-10" max = "10" />
+
+    <input type= "submit" value= "CHANGE"/>
+
+</form>
+</body>
+</html>
