@@ -19,7 +19,6 @@ $(document).ready(function() {
         var tempBall;
         var trailTimer = 0;
 
-
         for(var i = 0; i < initialNumberOfBalls; i++){
             var tempRadius = getRandomNumber(minSize, maxSize);
             var location = false;
@@ -44,14 +43,15 @@ $(document).ready(function() {
                     velocityX: tempVelocityX,
                     velocityY: tempVelocityY,
                     mass: tempRadius,
-                    colour: tempColour
+                    colour: tempColour,
+                    trail: []
                 };
                 location = canStartHere(tempBall);
             }
             balls.push(tempBall);
         }
 
-        setInterval(drawScreen, 33);
+        setInterval(drawScreen, 20);
 
         function canStartHere(ball) {
             var retVal = true;
@@ -178,6 +178,10 @@ $(document).ready(function() {
                 }else{
                     context.fillStyle = ball.colour;
                 }
+                var tempTrail = {
+                    x: ball.x,
+                    y: ball.y
+                }
                 ball.x = ball.nextX;
                 ball.y = ball.nextY;
 
@@ -185,22 +189,30 @@ $(document).ready(function() {
                 context.arc(ball.x, ball.y, ball.radius, 0, Math.PI *2, true);
                 context.closePath();
                 context.fill();
+
+
             }
         }
 
         function drawScreen() {
-            trailTimer++;
-            // Reset canvas
-
-            //if(trailTimer == 5){
+            if(checkboxTrial.checked){
+                trailTimer++;
+                if(trailTimer == 5){
+                    // Reset canvas
+                    context.fillStyle = "#EEEEEE";
+                    context.fillRect(0, 0, Canvas.width, Canvas.height);
+                    trailTimer = 0;
+                    // Outside border
+                    context.strokeStyle = "#000000";
+                    context.strokeRect(1, 1, Canvas.width - 2, Canvas.height - 2);
+                }
+            }else{
                 context.fillStyle = "#EEEEEE";
                 context.fillRect(0, 0, Canvas.width, Canvas.height);
-                trailTimer = 0;
-            //}
-            // Outside border
-            context.strokeStyle = "#000000";
-            context.strokeRect(1, 1, Canvas.width - 2, Canvas.height - 2);
-
+                // Outside border
+                context.strokeStyle = "#000000";
+                context.strokeRect(1, 1, Canvas.width - 2, Canvas.height - 2);
+            }
             update();
             testWalls();
             collide();
@@ -246,7 +258,6 @@ $(document).ready(function() {
                 colour: tempColour
             };
             balls.push(tempBall);
-            //alert("x: " + x + "  y: " + y);
         }
 
         function reset() {
